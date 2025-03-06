@@ -1,0 +1,103 @@
+{
+    "Indices": {
+        "name": "Stock Indices",
+        "symbol": "indices",
+        "components": {
+            "IBEX 35": "^IBEX",
+            "S&P 500": "^GSPC",
+            "NASDAQ": "^IXIC",
+            "DOW JONES": "^DJI",
+            "NIKKEI": "^N225",
+            "EuroNext 100": "^N100",
+            "CAC 40": "^FCHI",
+            "DAX 40": "^GDAXI",
+            "FTSE China 50": "FXI"
+        },
+        "tl_size": 9
+    },
+    "Cryptocurrencies": {
+        "name": "Cryptocurrencies",
+        "symbol": "cryptos",
+        "components": {
+            "Bitcoin": "BTC-USD",
+            "Ethereum": "ETH-USD",
+            "XRP": "XRP-USD",
+            "Dogecoin": "DOGE-USD",
+            "Solana": "SOL-USD",
+            "Binance Coin": "BNB-USD"
+        },
+        "tl_size": 6
+    },
+    "Futures": {
+        "name": "Commodity Futures",
+        "symbol": "futures",
+        "components": {
+            "Gold": "GC=F",
+            "Silver": "SI=F",
+            "Crude Oil WTI": "CL=F",
+            "Natural Gas": "NG=F",
+            "Copper": "HG=F",
+            "Cotton": "CT=F"
+        },
+        "tl_size": 6
+    },
+    "Stocks": {
+        "name": "Stocks",
+        "symbol": "stocks",
+        "components": {
+            "Apple": "AAPL",
+            "Microsoft": "MSFT",
+            "Nvidia": "NVDA",
+            "Google": "GOOGL",
+            "Meta": "META",
+            "AMD": "AMD",
+            "Tesla": "TSLA",
+            "IBM": "IBM",
+            "Oracle": "ORCL",
+            "Intel": "INTC",
+            "JPMorgan Chase": "JPM",
+            "Bank of America": "BAC",
+            "Wells Fargo": "WFC",
+            "Citigroup": "C",
+            "Goldman Sachs": "GS",
+            "Morgan Stanley": "MS",
+            "American Express": "AXP",
+            "Berkshire Hathaway": "BRK-B",
+            "U.S. Bancorp": "USB",
+            "PNC Financial": "PNC",
+            "Procter & Gamble": "PG",
+            "Coca-Cola": "KO",
+            "PepsiCo": "PEP",
+            "Unilever": "UL",
+            "Colgate-Palmolive": "CL",
+            "Altria": "MO",
+            "Kimberly-Clark": "KMB",
+            "Hershey": "HSY",
+            "Monster Beverage": "MNST",
+            "Starbucks": "SBUX",
+            "Johnson & Johnson": "JNJ",
+            "Pfizer": "PFE",
+            "Moderna": "MRNA",
+            "UnitedHealth": "UNH",
+            "CVS Health": "CVS",
+            "Abbott Laboratories": "ABT",
+            "Gilead Sciences": "GILD",
+            "Biogen": "BIIB",
+            "Eli Lilly": "LLY",
+            "Regeneron": "REGN",
+            "ExxonMobil": "XOM",
+            "Chevron": "CVX",
+            "BP": "BP",
+            "TotalEnergies": "TTE",
+            "Schlumberger": "SLB",
+            "Halliburton": "HAL",
+            "ConocoPhillips": "COP",
+            "EOG Resources": "EOG",
+            "Phillips 66": "PSX",
+            "Valero Energy": "VLO"
+        },
+        "tl_size": 50
+    }
+
+
+}
