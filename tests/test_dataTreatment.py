@@ -27,5 +27,5 @@ def test_data_has_enough_rows():
 def test_data_has_expected_columns_count():
     # Tiene el numero de columnas de entrada mas indicadores
     data = load_data(file)
-    expected_cols = 6 + 8  # 6 originales + 8 indicadores tecnicos
+    expected_cols = 5 + 5  # 5 originales (Date es Index) + 9 indicadores tecnicos (5 para test)
     assert data.shape[1] == expected_cols
