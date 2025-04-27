@@ -19,3 +19,6 @@ print(type(df2))
 
 soloceros = df2[(df2 == 0).any(axis=1)]
 print(soloceros)
+
+
+#TODO : testear el modelo con los datos de test (2025-01 a 2025-04)

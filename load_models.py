@@ -24,3 +24,6 @@ for layer in reg.layers:
     weights = layer.get_weights()
     print(weights)
 #TODO: reformatear con interfaz de usuario: cargar modelo, entrenar y guardar nuevo modelo, eliminar modelo, hacer prediccion
+#todo: visualizacion de la recompensa del agente a lo largo del tiempo
+
+
