@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
+from    sklearn.preprocessing import MinMaxScaler
 
 def load_data(filename="data/Stocks/AAPL.csv"):
     pd.options.display.float_format = '{:.10f}'.format

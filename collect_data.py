@@ -9,8 +9,8 @@ from pathlib import Path
 # ==========================
 
 path = "../TradingAgent/data/"
-start_date = "2023-01-01"
-end_date = "2025-02-01"
+start_date = "2020-01-01"
+end_date = "2025-05-01"
 
 empty_tickers = []
 total_tickers = 0
