@@ -3,6 +3,7 @@ import keras.src.saving.saving_api
 from dataTreatment import load_data
 from trading_environment import TradingEnv
 from trading_agent import TradingAgent
+import numpy as np
 import matplotlib.pyplot as plt
 import time
 
@@ -13,11 +14,12 @@ split_index = int(0.8 * len(data))
 train_data = data.iloc[:split_index]
 test_data = data.iloc[split_index:]
 
+
 window_size = 10
 feature_size = data.shape[1]
 state_size = window_size * feature_size
 
-env = TradingEnv(train_data)
+env = TradingEnv(train_data, 10, "AAPL")
 agent = TradingAgent(state_size=state_size, action_size=3) #State_size: tamaño vector de entrada: indicadores
 
 episode_rewards = []
@@ -85,6 +87,26 @@ def evaluate_agent(agent, env):
         state, reward, done, info = env.step(action, quantity)
         total_reward += reward
         net_worths.append(info["net_worth"])
+
+    # Calcular métricas tras entrenamiento
+    final_net_worths = np.array([info['net_worth'] for info in episode_infos]) #con la lista vamos bien para datos, pero no para operar con vectores
+
+    # Media de ganancias netas
+    mean_return = np.mean([nw - env.initial_balance for nw in final_net_worths])
+
+    # Sharpe ratio (retorno medio / desviación estándar)
+    returns = np.diff(final_net_worths)
+    sharpe = np.mean(returns) / (np.std(returns) + 1e-6)  # evitamos división por cero
+
+    # Máximo drawdown
+    peak = np.maximum.accumulate(final_net_worths)
+    drawdown = (final_net_worths - peak) / (peak + 1e-6)
+    max_drawdown = np.min(drawdown)
+
+    print(f"\nEvaluación del agente:")
+    print(f"Media de retorno neto: {mean_return:.2f}")
+    print(f"Ratio de Sharpe: {sharpe:.4f}")
+    print(f"Máximo Drawdown: {max_drawdown:.4%}")
 
     print(f"Net worth final: {info['net_worth']:.2f}")
     return net_worths
