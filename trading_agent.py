@@ -43,6 +43,7 @@ class TradingAgent:
 
         batch = random.sample(self.memory, self.batch_size)
 
+        #TODO: Considerar cambiar stacks y arrays a tensores de TensorFlow.
         states = np.stack([transition[0].reshape(-1) for transition in batch])
         actions = np.array([transition[1] for transition in batch])
         rewards = np.array([transition[2] for transition in batch])
