@@ -30,10 +30,10 @@ class TradingAgent:
         state = state.reshape(1, -1) #aplanamos para poder usar el stack de estados como entrada
         q_values, quantity = self.q_network.predict(state, verbose=0) #
         action = np.argmax(q_values[0])
-        num_shares = quantity * 10 # bien podria entrenar la red sobre 10 pero weno
-        if num_shares < 1:
-            num_shares = 1
-        return action, int(num_shares)
+        num_shares = quantity.item() * 10 # bien podria entrenar la red sobre 10 pero weno
+        # if num_shares < 1:
+        #     num_shares = 1
+        return action, num_shares
 
     def remember(self, state, action, reward, next_state, done, quantity):
         self.memory.append((state, action, reward, next_state, done, quantity*10)) #example: TradingEnv_2(day 2 of trading), 1 (Hold), 0.25 (New Percentual reward), 2,

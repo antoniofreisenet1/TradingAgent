@@ -50,6 +50,8 @@ def fetch_data(dir_name, tickers_dict):
             # FIX: Rename columns to remove duplicate ticker name
             data.columns = ['Open', 'High', 'Low', 'Close', 'Volume']
 
+            if "^" in symbol:
+                symbol = symbol.replace("^", "")
             # Save data to CSV
             data.to_csv(f'{path}/{dir_name}/{symbol}.csv')
 

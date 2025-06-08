@@ -6,6 +6,7 @@ from    sklearn.preprocessing import MinMaxScaler
 
 def load_data(filename="data/Stocks/AAPL.csv", enable_debug = True):
     pd.options.display.float_format = '{:.10f}'.format
+    folder = filename.split("/")[1]
     # Cargar datos desde el archivo CSV
     df = pd.read_csv(filename, parse_dates=["Date"])
     df.set_index("Date", inplace=True) # CUIDADO: Columna "Date" es indice ahora!! NO SE INCLUYE (13 cols)
@@ -30,7 +31,7 @@ def load_data(filename="data/Stocks/AAPL.csv", enable_debug = True):
     df.dropna(inplace=True)  # Eliminar filas con valores NaN !!! ATENCION: POR SMA_200 PERDEMOS 200 RECORDS !!!
     scaler = MinMaxScaler(feature_range=(0.001, 1))
 
-    scaler_ticker = filename.replace("data/Stocks/", "").replace(".csv", "")
+    scaler_ticker = filename.replace("data/" + folder + "/", "").replace(".csv", "")
     print(scaler_ticker)
 
     df_bycolumns = []
@@ -52,7 +53,7 @@ def load_data(filename="data/Stocks/AAPL.csv", enable_debug = True):
 
 
     if enable_debug:
-        scaler_ticker = filename.replace("data/Stocks/", "").replace(".csv", "")
+        scaler_ticker = filename.replace("data/" + folder + "/", "").replace(".csv", "")
         print(scaler_ticker)
 
         print(" ============ FIRST 5 ROWS OF THE SCALED DATA ============ ")

@@ -9,7 +9,9 @@ import time
 
 
 # IMPORTANTE: antes de ejecutar las funciones, se debe ejecutar al menos una vez el archivo collect_data.py
-data = load_data()
+filename = "data/Stocks/AAPL.csv"
+ticker = filename.split("/")[2].split(".")[0]
+data = load_data(filename=filename)
 split_index = int(0.8 * len(data))
 train_data = data.iloc[:split_index]
 test_data = data.iloc[split_index:]
@@ -19,7 +21,7 @@ window_size = 10
 feature_size = data.shape[1]
 state_size = window_size * feature_size
 
-env = TradingEnv(train_data, 10, "AAPL")
+env = TradingEnv(data = train_data, window_size = 10, ticker_name=ticker)
 agent = TradingAgent(state_size=state_size, action_size=3) #State_size: tamaño vector de entrada: indicadores
 
 episode_rewards = []
@@ -51,7 +53,6 @@ for episode in range(100):
         next_state, reward, done, info = env.step(action, quantity)
         agent.remember(currentState, action, reward, next_state, done, quantity)
         currentState = next_state
-
         total_reward += reward
         actions_by_episode[action] += 1 # actualiza numero de compras/ventas/aguantes
         quantities_by_episode.append(quantity)
