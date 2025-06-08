@@ -23,7 +23,7 @@ print(df2.shape)
 print("=" * 10 + " Values of the data " + "=" * 10)
 print(df2.values)
 print("=" * 10 + " Type of the data " + "=" * 10)
-print(type(df2))
+print(type(df2.values))
 print("=" * 10 + " Full data " + "=" * 10)
 print(df2)
 soloceros = df2[(df2 == 0).any(axis=1)]

@@ -43,7 +43,6 @@ class TradingEnv(gym.Env):
         return obs
 
     def step(self, action, quantity = 0):
-
         if self.current_step >= len(self.data):
             raise Exception("Episode already finished")
         normal_close = self.data[self.current_step][3] # Comprobar si no es mas facil pasar una matriz entera
@@ -52,7 +51,7 @@ class TradingEnv(gym.Env):
             if quantity < 0:
                 quantity = 0 # Check por si acaso quantity es negativo
             max_sale = max(1, int(self.shares_held * self.percent_max_buy_sell))
-            num_shares = min(quantity, max_sale, self.shares_held)
+            num_shares = min(quantity, max_sale, self.shares_held) #venta conservadora
             self.balance += num_shares * current_price
             self.shares_held -= num_shares
         elif action == 2:  # Comprar
@@ -60,7 +59,7 @@ class TradingEnv(gym.Env):
                 quantity = 0 # Check por si acaso quantity es negativo
             max_investment = self.balance * self.percent_max_buy_sell
             max_shares = int(max_investment // current_price)
-            num_shares = int(min(max(quantity, 0), max_shares)) # Siempre entero, siempre positivo, pero siempre menor posible
+            num_shares = min(max(quantity, 0), max_shares) # Siempre entero, siempre positivo, pero siempre menor posible todo compra arriesgada???
             self.shares_held += num_shares
             self.balance -= num_shares * current_price
 
