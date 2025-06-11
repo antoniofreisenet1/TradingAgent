@@ -7,7 +7,6 @@ from deepQ_regressor import * #build_q_network, build_regressor
 
 class TradingAgent:
     def __init__(self, state_size, action_size):
-        #TODO: añadir documentacion explicando el agente
         self.last_total_loss = 0
         self.last_q_values_loss = 0
         self.last_quantity_loss = 0
@@ -31,8 +30,6 @@ class TradingAgent:
         q_values, quantity = self.q_network.predict(state, verbose=0) #
         action = np.argmax(q_values[0])
         num_shares = quantity.item() * 10 # bien podria entrenar la red sobre 10 pero weno
-        # if num_shares < 1:
-        #     num_shares = 1
         return action, num_shares
 
     def remember(self, state, action, reward, next_state, done, quantity):
@@ -44,7 +41,6 @@ class TradingAgent:
 
         batch = random.sample(self.memory, self.batch_size)
 
-        #TODO: Considerar cambiar stacks y arrays a tensores de TensorFlow.
         states = np.stack([transition[0].reshape(-1) for transition in batch])
         actions = np.array([transition[1] for transition in batch])
         rewards = np.array([transition[2] for transition in batch])
@@ -60,7 +56,7 @@ class TradingAgent:
 
         target_q, _ = self.q_network.predict(states, verbose=0) # Prediccion de q values para los estados actuales
 
-        # Actualiza solo la accion escogida TODO REFLEJAR DOBLE SALIDA DE LA RED NUEVA
+        # Actualiza solo la accion escogida
         for i in range(self.batch_size):
             target_q[i][actions[i]] = targets[i]
 

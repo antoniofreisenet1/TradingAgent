@@ -47,6 +47,9 @@ class TradingEnv(gym.Env):
             raise Exception("Episode already finished")
         normal_close = self.data[self.current_step][3] # Comprobar si no es mas facil pasar una matriz entera
         current_price = self.close_scaler.inverse_transform([[normal_close]])[0][0] # Precio de cierre sin normalizar
+        is_penny_stock = current_price < 1 # penny stock indicator
+        if is_penny_stock: # si el precio es muy reducido: penny stocks
+            quantity = quantity * 100 # WARNING: cambiar escalado dependiendo del valor inicial
         if action == 0 and self.shares_held > 0:  # Vender
             if quantity < 0:
                 quantity = 0 # Check por si acaso quantity es negativo
@@ -59,7 +62,7 @@ class TradingEnv(gym.Env):
                 quantity = 0 # Check por si acaso quantity es negativo
             max_investment = self.balance * self.percent_max_buy_sell
             max_shares = max_investment / current_price
-            num_shares = min(max(quantity, 0), max_shares) # Siempre entero, siempre positivo, pero siempre menor posible todo compra arriesgada???
+            num_shares = min(max(quantity, 0), max_shares) # Siempre positivo, siempre menor posible para compra conservadora
             self.shares_held += num_shares
             self.balance -= num_shares * current_price
 

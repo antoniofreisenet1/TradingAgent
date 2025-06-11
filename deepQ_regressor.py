@@ -45,36 +45,3 @@ def build_combined_network(input_shape):
     for layer in model.layers:
         print(f"{layer.name}: trainable = {layer.trainable}")
     return model
-
-# def build_q_network(input_shape, output_shape):
-#     model = keras.Sequential([
-#         keras.Input(shape=(input_shape,)),
-#         layers.Dense(128, activation="relu"),
-#         layers.Dense(64, activation="relu"),
-#         layers.Dense(output_shape, activation="linear")  # Q-values para cada acción: buy/hold/sell
-#     ])
-#
-#     lr_schedule = keras.optimizers.schedules.InverseTimeDecay(
-#         initial_learning_rate=0.002,
-#         decay_steps=1000,
-#         decay_rate=0.001,
-#         staircase=False
-#     )
-#     optimizer = keras.optimizers.Adam(learning_rate=lr_schedule)
-#     # model.summary() # Solo para testing
-#     model.compile(optimizer, loss="huber") # Considera la perdida de Huber para mercados confusos
-#     return model
-
-
-#Testing para comprobar si es mejor no usar el regresor.
-# def build_regressor(input_shape):
-#     model = keras.Sequential([
-#         keras.Input(shape=(input_shape,)),
-#         layers.Dense(128, activation="relu"),
-#         layers.Dense(64, activation="relu"),
-#         layers.Dense(1, activation="sigmoid")  # Número de acciones
-#     ])
-#     # model.summary() # Solo para testing
-#     optimizer = keras.optimizers.Adam(learning_rate=0.001)
-#     model.compile(optimizer, loss="huber")  # Considera la perdida de Huber para mercados confusos
-#     return model

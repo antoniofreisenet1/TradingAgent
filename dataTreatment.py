@@ -11,8 +11,6 @@ def load_data(filename="data/Stocks/AAPL.csv", enable_debug = True):
     df = pd.read_csv(filename, parse_dates=["Date"])
     df.set_index("Date", inplace=True) # CUIDADO: Columna "Date" es indice ahora!! NO SE INCLUYE (13 cols)
 
-    if "2023-02-03" in df.index:
-        print(df.loc["2023-02-03"])
 
     # Calcular indicadores técnicos
     df["SMA_50"] = df["Close"].rolling(window=50).mean()
@@ -82,3 +80,47 @@ def compute_rsi(series, window=14):
     rsi = 100 - (100 / (1 + rs))
 
     return rsi
+
+
+def load_data_for_prediction(new_df, csv_path, ticker):
+
+    # Obtener dataframe histórico
+    historical_df = pd.read_csv(csv_path, index_col="Date", parse_dates=True)
+
+    df = pd.concat([historical_df, new_df])
+    df = df[~df.index.duplicated(keep="last")].sort_index()
+
+    # Calcular indicadores técnicos
+    df["SMA_50"] = df["Close"].rolling(window=50).mean()
+    df["RSI"] = compute_rsi(df["Close"]) # Cambiado porque la formula anterior no tenia en cuenta la variacion media
+    df["BB_Middle"] = df["Close"].rolling(window=20).mean() # No es necesario incluir la banda central
+    df["BB_Std"] = df["Close"].rolling(window=20).std() # No es necesario incluir la desviacion estandar
+    df["BB_Upper"] = df["BB_Middle"] + (df["BB_Std"] * 2)
+    df["BB_Lower"] = df["BB_Middle"] - (df["BB_Std"] * 2)
+    df["ROC"] = df["Close"].pct_change(periods=10) * 100
+    df["OBV"] = (np.sign(df["Close"].diff()) * df["Volume"]).fillna(0).cumsum() # Direccion del cambio de precio * volumen
+
+    # bb_middle y bb_std no se usan: Eliminadas
+    df.drop(["BB_Middle","BB_Std"], axis=1, inplace=True)
+
+    # Normalización de los datos
+    df.dropna(inplace=True)  # Eliminar filas con valores NaN !!! ATENCION: POR SMA_200 PERDEMOS 200 RECORDS !!!
+    scaler = MinMaxScaler(feature_range=(0.001, 1))
+
+    df_bycolumns = []
+    # Normalizamos por columnas
+    for column in df.columns:
+        #if(not column.endswith("Close")): #CAMBIADO PARA ARREGLAR EL BUG DE NORMALIZACION EN LA ENTRADA DE LA RED
+        values = df[[column]]
+        normalized_values = scaler.fit_transform(values)
+        normalized_column = pd.DataFrame(
+            normalized_values,
+            columns=[column],
+            index=values.index
+        )
+        df_bycolumns.append(normalized_column)
+        if column.endswith("Close"):  #De momento solo usamos Close
+            joblib.dump(scaler, f"scalers/TMP_scaler_{column}_{ticker}.pkl")
+    df_scaled = pd.concat(df_bycolumns, axis=1)
+
+    return df_scaled
